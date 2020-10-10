@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+{%block content%}
+<h2>{{userinfo.displayname}}</h2>
+<h4>@{{userinfo.username}}</h4>
+<br/>
+<br/>
+<br/>
+{%if request.path == '/' or request.path == '/notifications/'%}
+<h4>Following: {{followed_count}}</h4>
+<h4>Total Tweets: {{tweet_count}}</h4>
+{%else%}
+{%if request.user.is_authenticated%}
+{%ifnotequal request.user userinfo%}
+{%if userinfo in request.user.followed.all%}
+<a href= '/{{userinfo.username}}/unfollow/'>Stop following</a>
+{%else%}
+<a href= '/{{userinfo.username}}/follow/'>follow</a>
+{%endif%}
+{%endifnotequal%}
+{%endif%}
+{%endif%}
+<hr>
+<h3>Current Tweets</h3>
+{%include template_name%}
+{%endblock%}
